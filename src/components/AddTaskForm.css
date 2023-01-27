@@ -1,0 +1,52 @@
+.addTaskForm {
+  font-size: 20px;
+  border: 2px solid black;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  min-width: 10vw;
+  max-width: 90vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  
+}
+
+.formCard {
+    display:flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    box-shadow: 0px 0px 100px rgba(0,0,0,1);
+}
+
+.formDescription {
+  padding: 2px 10px;
+}
+
+/* Add some padding inside the card container */
+.taskInputContainer {
+  padding: 2px 16px 2px 0px;
+  display: flex;
+  align-items: center;
+}
+
+.cancelAddButton {
+    margin-right: 10px;
+    background-color: #fb7c73;
+    border-width: 0px;
+    border-radius: 5px; /* 5px rounded corners */
+}
+.cancelAddButton:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.oKButton {
+  background-color: #42f148;
+  border-width: 0px;
+  border-radius: 5px; /* 5px rounded corners */
+}
+.oKButton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}

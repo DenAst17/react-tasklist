@@ -2,27 +2,50 @@ import './App.css';
 import AddTaskButton from './components/AddTaskButton';
 import { useState } from 'react';
 import TaskList from './components/TaskList';
-import TaskAddForm from './components/TaskAddForm';
+import AddTaskForm from './components/AddTaskForm';
+import BackgroundDim from './components/BackgroundDim';
 
-let nextId = 3;
-const initialTasks = [
-  { id: 0, title: 'Short task', done: true },
-  { id: 1, title: 'Loooooo ooooooooooo oooooooooooo oooooooooong task', done: false },
-  { id: 2, title: 'Midddddd dddddddle task', done: false },
+let nextId = 2;
+
+let initialTasks = [
+  { id: 0, title: 'Task list created by denast', done: false, color: "#f7efd2"},
+  { id: 1, title: 'Click to the add button to add new task or delete button to delete any existing one', done: false, color: "#8a8583"}
 ];
 
 function App() {
+  let localstorageTasks = [];
+  JSON.parse(localStorage.getItem('tasks')).forEach(task => {
+    localstorageTasks.push(task);
+  });
+  initialTasks = localstorageTasks || initialTasks;
+  nextId = localStorage.getItem('nextId') || nextId;
+  //localStorage.clear();
   const [tasks, setTasks] = useState(initialTasks);
+  const [isAddForm, setIsAddForm] = useState(false);
 
-  function handleAddTask(title) {
-    setTasks([
+  function handleAddTask(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const formJson = Object.fromEntries(formData.entries());
+    if(formJson.taskText == '' || !formJson.taskText) {
+      formJson.taskText = '-Empty task-';
+    }
+    let resTasks = [
       ...tasks,
       {
         id: nextId++,
-        title: title,
-        done: false
+        title: formJson.taskText,
+        done: false,
+        color: formJson.taskColor + 'EE'
       }
-    ]);
+    ]
+    setTasks(
+      resTasks
+    );
+    setFormInvisible();
+    localStorage.setItem('tasks', JSON.stringify(resTasks));
+    localStorage.setItem('nextId', nextId);
   }
   function handleChangeTask(nextTask) {
     setTasks(tasks.map(t => {
@@ -35,19 +58,43 @@ function App() {
   }
 
   function handleDeleteTask(taskId) {
+    var remainingTasks = tasks.filter(t => t.id !== taskId);
     setTasks(
-      tasks.filter(t => t.id !== taskId)
+      remainingTasks
     );
+    localStorage.setItem('tasks', JSON.stringify(remainingTasks));
   }
+
+  function setFormVisible() {
+    setIsAddForm(true);
+  }
+  function setFormInvisible() {
+    setIsAddForm(false);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <AddTaskButton />
+        <AddTaskButton 
+          showForm={setFormVisible}
+        />
       </header>
       
       <TaskList tasks={tasks}
             onChange={handleChangeTask}
             onDelete={handleDeleteTask}/>
+      
+      {
+        isAddForm && (
+          <>
+            <AddTaskForm 
+              closeForm={setFormInvisible}
+              handleSubmit={handleAddTask}
+            />
+            <BackgroundDim />
+          </>
+        )
+      }
     </div>
   );
 }

@@ -18,6 +18,9 @@
 .container {
   padding: 2px 20px;
 }
+.whiteColor {
+  color:white;
+}
 
 .cancelButton {
     background-color: #fb7c73;

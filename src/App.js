@@ -18,6 +18,7 @@ function App() {
     localstorageTasks.push(task);
   });
   initialTasks = localstorageTasks || initialTasks;
+  console.log(initialTasks);
   nextId = localStorage.getItem('nextId') || nextId;
   //localStorage.clear();
   const [tasks, setTasks] = useState(initialTasks);
@@ -28,7 +29,7 @@ function App() {
     const form = e.target;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    if(formJson.taskText == '' || !formJson.taskText) {
+    if(formJson.taskText === '' || !formJson.taskText) {
       formJson.taskText = '-Empty task-';
     }
     let resTasks = [
@@ -37,7 +38,7 @@ function App() {
         id: nextId++,
         title: formJson.taskText,
         done: false,
-        color: formJson.taskColor + 'EE'
+        color: formJson.taskColor
       }
     ]
     setTasks(

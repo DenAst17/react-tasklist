@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AddTaskForm.css';
 
 export default function AddTaskForm({
   closeForm,
   handleSubmit
 }) {
+
+  useEffect(() => {
+    var x = document.getElementById("formColorInput");
+    x.defaultValue = "#47D758"
+  });
 
   return (
     <form className = "addTaskForm" onSubmit={handleSubmit}>

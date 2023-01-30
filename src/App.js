@@ -8,15 +8,32 @@ import BackgroundDim from './components/BackgroundDim';
 let nextId = 2;
 
 let initialTasks = [
-  { id: 0, title: 'Task list created by denast', done: false, color: "#f7efd2"},
-  { id: 1, title: 'Click to the add button to add new task or delete button to delete any existing one', done: false, color: "#8a8583"}
+  { 
+    id: 0, 
+    title: 'Task list created by denast', 
+    done: false, 
+    color: "#f7efd2", 
+    time: "15:00"
+  },
+  { 
+    id: 1, 
+    title: 'Click to the add button to add new task or delete button to delete any existing one', 
+    done: false, 
+    color: "#ecd06a", 
+    time: "15:20"
+  }
 ];
 
 function App() {
   let localstorageTasks = [];
-  JSON.parse(localStorage.getItem('tasks')).forEach(task => {
-    localstorageTasks.push(task);
-  });
+  if(localStorage.getItem('tasks')) {
+    JSON.parse(localStorage.getItem('tasks')).forEach(task => {
+      localstorageTasks.push(task);
+    });
+  }
+  else {
+    localstorageTasks = null;
+  }
   initialTasks = localstorageTasks || initialTasks;
   console.log(initialTasks);
   nextId = localStorage.getItem('nextId') || nextId;
@@ -29,6 +46,9 @@ function App() {
     const form = e.target;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
+
+    console.log(formJson.taskTime);
+
     if(formJson.taskText === '' || !formJson.taskText) {
       formJson.taskText = '-Empty task-';
     }
@@ -38,7 +58,8 @@ function App() {
         id: nextId++,
         title: formJson.taskText,
         done: false,
-        color: formJson.taskColor
+        color: formJson.taskColor,
+        time: formJson.taskTime
       }
     ]
     setTasks(

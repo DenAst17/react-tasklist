@@ -13,7 +13,6 @@ export default function TaskShowCard({
       let redPart = color.slice(1, 3);
       let greenPart = color.slice(3, 5);
       let bluePart = color.slice(5, 7);
-      console.log(redPart, greenPart, bluePart);
       if(redPart < "80" && greenPart < "80" && bluePart < "80") {
         return true;
       }

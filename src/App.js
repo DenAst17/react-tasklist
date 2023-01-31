@@ -4,6 +4,7 @@ import { useState } from 'react';
 import TaskList from './components/TaskList';
 import AddTaskForm from './components/AddTaskForm';
 import BackgroundDim from './components/BackgroundDim';
+import "./assets/Gmail_icon_(2020).svg.png";
 
 let nextId = 2;
 
@@ -17,7 +18,7 @@ let initialTasks = [
   },
   { 
     id: 1, 
-    title: 'Click to the add button to add new task or delete button to delete any existing one', 
+    title: 'Click the add button to add new task or delete button to delete any existing one', 
     done: false, 
     color: "#ecd06a", 
     time: "15:20"
@@ -35,6 +36,17 @@ function App() {
     localstorageTasks = null;
   }
   initialTasks = localstorageTasks || initialTasks;
+  initialTasks.sort((a, b) => {
+     if(a.time < b.time) {
+      return -1;
+     }
+     else if(a.time > b.time) {
+      return 1;
+     }
+     else {
+      return 0;
+     }
+    });
   console.log(initialTasks);
   nextId = localStorage.getItem('nextId') || nextId;
   //localStorage.clear();
@@ -105,6 +117,16 @@ function App() {
       <TaskList tasks={tasks}
             onChange={handleChangeTask}
             onDelete={handleDeleteTask}/>
+
+      <footer className="App-footer">
+        <h4 className='footerText'>Task list made by denast</h4>
+        <a href="mailto:denis2004ast@gmail.com" className='gmailImageLink'> 
+          <img alt="My google" className='gmailImage' src={require("./assets/Gmail_icon_(2020).svg.png")}/> 
+        </a>
+        <a href="https://t.me/imdenast" className='telegramImageLink'> 
+          <img alt="My telegram" className='telegramImage' src={require("./assets/Telegram_icon.png")}/> 
+        </a>
+      </footer>
       
       {
         isAddForm && (

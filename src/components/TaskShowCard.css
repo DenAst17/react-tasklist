@@ -30,3 +30,9 @@
 .cancelButton:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
+.taskTime {
+  margin: 10px 0px;
+}
+.taskTitle {
+  margin: 10px 5px 20px 2px;
+}

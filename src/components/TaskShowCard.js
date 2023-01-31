@@ -27,9 +27,12 @@ export default function TaskShowCard({
 
     return (
       <div className="card" style={{backgroundColor:task.color}}>
-        <div className={containerClassName}>
-          <h4><b>{task.title}</b></h4>
-        </div>
+        <section className={containerClassName}>
+          <header>
+            <h3 className = "taskTime"><b>{task.time}</b></h3>
+          </header>
+          <h4 className = "taskTitle"><b>{task.title}</b></h4>
+        </section>
         <button className = "cancelButton" onClick={() => onDelete(task.id)} > 
             Delete
         </button>

@@ -33,9 +33,11 @@ export default function TaskShowCard({
           </header>
           <h4 className = "taskTitle"><b>{task.title}</b></h4>
         </section>
-        <button className = "cancelButton" onClick={() => onDelete(task.id)} > 
-            Delete
-        </button>
+        <div className='buttonContainer'>
+          <button className = "deleteButton" onClick={() => onDelete(task.id)} > 
+              Delete
+          </button>
+        </div>
       </div>
     );
   }

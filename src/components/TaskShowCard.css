@@ -22,12 +22,22 @@
   color:white;
 }
 
-.cancelButton {
+.deleteButton {
+    height: 100%;
     background-color: #fb7c73;
     border-radius: 5px; /* 5px rounded corners */
     border-color: black;
 }
-.cancelButton:hover {
+.deleteButton:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.editButton {
+  height: 50%;
+  background-color: #5772ec;
+  border-radius: 5px; /* 5px rounded corners */
+  border-color: black;
+}
+.editButton:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 .taskTime {
@@ -35,4 +45,8 @@
 }
 .taskTitle {
   margin: 10px 5px 20px 2px;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
 }

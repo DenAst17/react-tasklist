@@ -108,24 +108,28 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <AddTaskButton 
-          showForm={setFormVisible}
-        />
-      </header>
-      
-      <TaskList tasks={tasks}
-            onChange={handleChangeTask}
-            onDelete={handleDeleteTask}/>
+      <div className='headerAndTaskListContainer'>
+        <header className="App-header">
+          <AddTaskButton 
+            showForm={setFormVisible}
+          />
+        </header>
+        
+        <TaskList tasks={tasks}
+              onChange={handleChangeTask}
+              onDelete={handleDeleteTask}/>
+      </div>
 
       <footer className="App-footer">
         <h4 className='footerText'>Task list made by denast</h4>
-        <a href="mailto:denis2004ast@gmail.com" className='gmailImageLink'> 
-          <img alt="My google" className='gmailImage' src={require("./assets/Gmail_icon_(2020).svg.png")}/> 
-        </a>
-        <a href="https://t.me/imdenast" className='telegramImageLink'> 
-          <img alt="My telegram" className='telegramImage' src={require("./assets/Telegram_icon.png")}/> 
-        </a>
+        <div className="imageContainer">
+          <a href="mailto:denis2004ast@gmail.com" className='gmailImageLink'> 
+            <img alt="My google" className='gmailImage' src={require("./assets/Gmail_icon_(2020).svg.png")}/> 
+          </a>
+          <a href="https://t.me/imdenast" className='telegramImageLink'> 
+            <img alt="My telegram" className='telegramImage' src={require("./assets/Telegram_icon.png")}/> 
+          </a>
+        </div>
       </footer>
       
       {

@@ -34,6 +34,9 @@ export default function TaskShowCard({
           <h4 className = "taskTitle"><b>{task.title}</b></h4>
         </section>
         <div className='buttonContainer'>
+          <button className = "editButton" onClick={() => onChange(task.id)} > 
+              Edit
+          </button>
           <button className = "deleteButton" onClick={() => onDelete(task.id)} > 
               Delete
           </button>

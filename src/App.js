@@ -5,6 +5,7 @@ import TaskList from './components/TaskList';
 import AddTaskForm from './components/AddTaskForm';
 import BackgroundDim from './components/BackgroundDim';
 import "./assets/Gmail_icon_(2020).svg.png";
+import EditTaskForm from './components/EditTaskForm';
 
 let nextId = 2;
 
@@ -52,6 +53,8 @@ function App() {
   //localStorage.clear();
   const [tasks, setTasks] = useState(initialTasks);
   const [isAddForm, setIsAddForm] = useState(false);
+  const [isEditForm, setIsEditForm] = useState(false);
+  const [editedTask, setEditedTask] = useState(tasks[0]);
 
   function handleAddTask(e) {
     e.preventDefault();
@@ -77,18 +80,9 @@ function App() {
     setTasks(
       resTasks
     );
-    setFormInvisible();
+    setFormsInvisible();
     localStorage.setItem('tasks', JSON.stringify(resTasks));
     localStorage.setItem('nextId', nextId);
-  }
-  function handleChangeTask(nextTask) {
-    setTasks(tasks.map(t => {
-      if (t.id === nextTask.id) {
-        return nextTask;
-      } else {
-        return t;
-      }
-    }));
   }
 
   function handleDeleteTask(taskId) {
@@ -99,11 +93,47 @@ function App() {
     localStorage.setItem('tasks', JSON.stringify(remainingTasks));
   }
 
-  function setFormVisible() {
+  function handleChangeTask(e) {
+    e.preventDefault();
+    var remainingTasks = tasks.filter(t => t.id !== editedTask.id);
+    const form = e.target;
+    const formData = new FormData(form);
+    const formJson = Object.fromEntries(formData.entries());
+
+    console.log(formJson.taskTime);
+
+    if(formJson.taskText === '' || !formJson.taskText) {
+      formJson.taskText = '-Empty task-';
+    }
+    let resTasks = [
+      ...remainingTasks,
+      {
+        id: editedTask.id,
+        title: formJson.taskText,
+        done: false,
+        color: formJson.taskColor,
+        time: formJson.taskTime
+      }
+    ]
+    setTasks(
+      resTasks
+    );
+    setFormsInvisible();
+    localStorage.setItem('tasks', JSON.stringify(resTasks));
+    localStorage.setItem('nextId', nextId);
+  }
+
+  function setAddFormVisible() {
     setIsAddForm(true);
   }
-  function setFormInvisible() {
+  function startEdit(taskId) {
+    var editedTask = tasks.find(task => task.id === taskId);
+    setEditedTask(editedTask);
+    setIsEditForm(true);
+  }
+  function setFormsInvisible() {
     setIsAddForm(false);
+    setIsEditForm(false);
   }
 
   return (
@@ -111,12 +141,12 @@ function App() {
       <div className='headerAndTaskListContainer'>
         <header className="App-header">
           <AddTaskButton 
-            showForm={setFormVisible}
+            showForm={setAddFormVisible}
           />
         </header>
         
         <TaskList tasks={tasks}
-              onChange={handleChangeTask}
+              onChange={startEdit}
               onDelete={handleDeleteTask}/>
       </div>
 
@@ -136,8 +166,20 @@ function App() {
         isAddForm && (
           <>
             <AddTaskForm 
-              closeForm={setFormInvisible}
+              closeForm={setFormsInvisible}
               handleSubmit={handleAddTask}
+            />
+            <BackgroundDim />
+          </>
+        )
+      }
+      {
+        isEditForm && (
+          <>
+            <EditTaskForm
+              closeForm = {setFormsInvisible}
+              handleSubmit = {handleChangeTask}
+              editedTask = {editedTask}
             />
             <BackgroundDim />
           </>

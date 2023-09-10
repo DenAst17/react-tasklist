@@ -10,25 +10,25 @@ import EditTaskForm from './components/EditTaskForm';
 let nextId = 2;
 
 let initialTasks = [
-  { 
-    id: 0, 
-    title: 'Task list created by denast', 
-    done: false, 
-    color: "#f7efd2", 
+  {
+    id: 0,
+    title: 'Task list created by denast',
+    done: false,
+    color: "#f7efd2",
     time: "15:00"
   },
-  { 
-    id: 1, 
-    title: 'Click the add button to add new task or delete button to delete any existing one', 
-    done: false, 
-    color: "#ecd06a", 
+  {
+    id: 1,
+    title: 'Click the add button to add new task or delete button to delete any existing one',
+    done: false,
+    color: "#ecd06a",
     time: "15:20"
   }
 ];
 
 function App() {
   let localstorageTasks = [];
-  if(localStorage.getItem('tasks')) {
+  if (localStorage.getItem('tasks')) {
     JSON.parse(localStorage.getItem('tasks')).forEach(task => {
       localstorageTasks.push(task);
     });
@@ -37,24 +37,45 @@ function App() {
     localstorageTasks = null;
   }
   initialTasks = localstorageTasks || initialTasks;
-  initialTasks.sort((a, b) => {
-     if(a.time < b.time) {
-      return -1;
-     }
-     else if(a.time > b.time) {
-      return 1;
-     }
-     else {
-      return 0;
-     }
+
+  function sortTasks(tasks) {
+    tasks.sort((a, b) => {
+      if (a.id < b.id) {
+        return -1;
+      }
+      else if (a.id > b.id) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
     });
-  console.log(initialTasks);
+  }
+  sortTasks(initialTasks);
   nextId = localStorage.getItem('nextId') || nextId;
   //localStorage.clear();
   const [tasks, setTasks] = useState(initialTasks);
   const [isAddForm, setIsAddForm] = useState(false);
   const [isEditForm, setIsEditForm] = useState(false);
   const [editedTask, setEditedTask] = useState(tasks[0]);
+
+  function swapTasks(id1, id2) {
+    let resTasks = [...tasks];
+
+    let i1 = resTasks.findIndex(x => x.id == id1);
+    let i2 = resTasks.findIndex(x => x.id == id2);
+
+    const id = resTasks[i1].id;
+    resTasks[i1].id = resTasks[i2].id;
+    resTasks[i2].id = id;
+
+    sortTasks(resTasks);
+
+    setTasks(
+      resTasks
+    );
+    localStorage.setItem('tasks', JSON.stringify(resTasks));
+  }
 
   function handleAddTask(e) {
     e.preventDefault();
@@ -64,7 +85,7 @@ function App() {
 
     console.log(formJson.taskTime);
 
-    if(formJson.taskText === '' || !formJson.taskText) {
+    if (formJson.taskText === '' || !formJson.taskText) {
       formJson.taskText = '-Empty task-';
     }
     let resTasks = [
@@ -102,7 +123,7 @@ function App() {
 
     console.log(formJson.taskTime);
 
-    if(formJson.taskText === '' || !formJson.taskText) {
+    if (formJson.taskText === '' || !formJson.taskText) {
       formJson.taskText = '-Empty task-';
     }
     let resTasks = [
@@ -140,32 +161,33 @@ function App() {
     <div className="App">
       <div className='headerAndTaskListContainer'>
         <header className="App-header">
-          <AddTaskButton 
+          <AddTaskButton
             showForm={setAddFormVisible}
           />
         </header>
-        
+
         <TaskList tasks={tasks}
-              onChange={startEdit}
-              onDelete={handleDeleteTask}/>
+          onChange={startEdit}
+          onDelete={handleDeleteTask}
+          swapTasks={swapTasks} />
       </div>
 
       <footer className="App-footer">
         <h4 className='footerText'>Task list made by denast</h4>
         <div className="imageContainer">
-          <a href="mailto:denis2004ast@gmail.com" className='gmailImageLink'> 
-            <img alt="My google" className='gmailImage' src={require("./assets/Gmail_icon_(2020).svg.png")}/> 
+          <a href="mailto:denis2004ast@gmail.com" className='gmailImageLink'>
+            <img alt="My google" className='gmailImage' src={require("./assets/Gmail_icon_(2020).svg.png")} />
           </a>
-          <a href="https://t.me/imdenast" className='telegramImageLink'> 
-            <img alt="My telegram" className='telegramImage' src={require("./assets/Telegram_icon.png")}/> 
+          <a href="https://t.me/imdenast" className='telegramImageLink'>
+            <img alt="My telegram" className='telegramImage' src={require("./assets/Telegram_icon.png")} />
           </a>
         </div>
       </footer>
-      
+
       {
         isAddForm && (
           <>
-            <AddTaskForm 
+            <AddTaskForm
               closeForm={setFormsInvisible}
               handleSubmit={handleAddTask}
             />
@@ -177,9 +199,9 @@ function App() {
         isEditForm && (
           <>
             <EditTaskForm
-              closeForm = {setFormsInvisible}
-              handleSubmit = {handleChangeTask}
-              editedTask = {editedTask}
+              closeForm={setFormsInvisible}
+              handleSubmit={handleChangeTask}
+              editedTask={editedTask}
             />
             <BackgroundDim />
           </>
